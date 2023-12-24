@@ -1,5 +1,5 @@
 ---
-- name: Update Pi-hole
+- name: Update Pi-hole and Notify Discord
   hosts: all
   become: yes
 
@@ -13,3 +13,14 @@
 
     - name: Update blocklists
       shell: "pihole -g"
+
+    - name: Notify Discord
+      vars:
+        discord_webhook_url: "https://discord.com/api/webhooks/1154893277510770698/aqMPGP58pC6qBZ4tHe7yK8OQPBVXqDTo7o8RiiJmMC1h30zvMD2CP4X1sbsvuNyhMcv_"
+        discord_message: "Pi-hole update completed successfully."
+      uri:
+        url: "{{ discord_webhook_url }}"
+        method: POST
+        body_format: json
+        body: '{"content": "{{ discord_message }}"}'
+        status_code: 204
