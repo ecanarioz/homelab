@@ -4,9 +4,10 @@
   become: true
   tasks:
     - name: Update Pi-Hole
-      apt:
-        name: pi-hole
-        state: latest
+      shell: >
+        curl -sSL https://install.pi-hole.net | bash /dev/stdin --reconfigure
+      args:
+        executable: /bin/bash
 
     - name: Notify Discord
       uri:
