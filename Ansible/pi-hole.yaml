@@ -5,7 +5,7 @@
   tasks:
     - name: Update Pi-Hole
       shell: >
-        curl -sSL https://install.pi-hole.net | bash /dev/stdin --reconfigure
+        DEBIAN_FRONTEND=noninteractive curl -sSL https://install.pi-hole.net | bash /dev/stdin --reconfigure
       args:
         executable: /bin/bash
 
