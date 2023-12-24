@@ -1,18 +1,15 @@
 ---
-- name: Update Pi-Hole and Notify Discord
+- name: Update Pi-hole
   hosts: all
-  become: true
-  tasks:
-    - name: Update Pi-Hole
-      shell: >
-        DEBIAN_FRONTEND=noninteractive /bin/bash -c "$(curl -sSL https://install.pi-hole.net)" -- --reconfigure
+  become: yes
 
-    - name: Notify Discord
-      uri:
-        url: "https://discord.com/api/webhooks/1154893277510770698/aqMPGP58pC6qBZ4tHe7yK8OQPBVXqDTo7o8RiiJmMC1h30zvMD2CP4X1sbsvuNyhMcv_"
-        method: POST
-        body_format: json
-        body:
-          content: "Pi-Hole has been updated!"
-        status_code: 204
-        validate_certs: no
+  tasks:
+    - name: Update package lists
+      apt:
+        update_cache: yes
+
+    - name: Update Pi-hole
+      shell: "pihole -up"
+
+    - name: Update blocklists
+      shell: "pihole -g"
