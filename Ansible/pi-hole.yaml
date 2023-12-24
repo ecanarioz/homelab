@@ -4,9 +4,8 @@
   become: true
   tasks:
     - name: Update Pi-Hole
-      apt:
-        name: pi-hole
-        state: latest
+      shell: >
+        DEBIAN_FRONTEND=noninteractive /bin/bash -c "$(curl -sSL https://install.pi-hole.net)" -- --reconfigure
 
     - name: Notify Discord
       uri:
