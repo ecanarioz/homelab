@@ -1,0 +1,19 @@
+---
+- name: Update Pi-Hole and Notify Discord
+  hosts: all
+  become: true
+  tasks:
+    - name: Update Pi-Hole
+      apt:
+        name: pi-hole
+        state: latest
+
+    - name: Notify Discord
+      uri:
+        url: "https://discord.com/api/webhooks/1154893277510770698/aqMPGP58pC6qBZ4tHe7yK8OQPBVXqDTo7o8RiiJmMC1h30zvMD2CP4X1sbsvuNyhMcv_"
+        method: POST
+        body_format: json
+        body:
+          content: "Pi-Hole has been updated!"
+        status_code: 204
+        validate_certs: no
